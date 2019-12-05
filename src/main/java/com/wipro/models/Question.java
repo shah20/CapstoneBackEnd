@@ -7,7 +7,7 @@ public class Question {
 
     @Id
     @GeneratedValue
-    Long Id;
+    Long id;
 
     String question;
     String responseType;
@@ -18,13 +18,6 @@ public class Question {
     // @JoinColumn(name="survey_id")
     // private Survey survey;
 
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
 
     public String getQuestion() {
         return question;
@@ -64,7 +57,15 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question [Id=" + Id + ", options=" + options + ", question=" + question
+        return "Question [Id=" + id + ", options=" + options + ", question=" + question
                 + ", responseType=" + responseType + ", validation=" + validation + "]";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

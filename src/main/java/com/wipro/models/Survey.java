@@ -10,11 +10,12 @@ public class Survey {
 
     @Id
     @GeneratedValue
-    Long Id;
+    Long id;
 
     String surveyName;
     Long createdOn;
     String status;
+    Long validTill;
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name="survey_question_mapping",joinColumns=@JoinColumn(name="survey_id"),inverseJoinColumns=@JoinColumn(name="question_id"))
     Collection<Question> questions = new ArrayList<>();
@@ -35,19 +36,6 @@ public class Survey {
         this.createdOn = createdOn;
     }
 
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(long id) {
-        Id = id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
     public Collection<Question> getQuestions() {
         return questions;
     }
@@ -64,21 +52,38 @@ public class Survey {
         this.status = status;
     }
 
-    public Survey(String surveyName, Long createdOn, String status, Collection<Question> questions) {
-        super();
-        this.surveyName = surveyName;
-        this.createdOn = createdOn;
-        this.status = status;
-        this.questions = questions;
-    }
-
     public Survey() {
         super();
     }
 
     @Override
     public String toString() {
-        return "Survey [Id=" + Id + ", createdOn=" + createdOn + ", questions=" + questions + ", status=" + status
-                + ", surveyName=" + surveyName + "]";
+        return "Survey [createdOn=" + createdOn + ", id=" + id + ", questions=" + questions + ", status=" + status
+                + ", surveyName=" + surveyName + ", validTill=" + validTill + "]";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getValidTill() {
+        return validTill;
+    }
+
+    public void setValidTill(Long validTill) {
+        this.validTill = validTill;
+    }
+
+    public Survey(String surveyName, Long createdOn, String status, Long validTill, Collection<Question> questions) {
+        super();
+        this.surveyName = surveyName;
+        this.createdOn = createdOn;
+        this.status = status;
+        this.validTill = validTill;
+        this.questions = questions;
     }
 }
