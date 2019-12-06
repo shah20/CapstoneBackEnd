@@ -57,4 +57,10 @@ public class AdminController {
 
         return this.adminService.deleteSurvey(surveyId);
     }
+
+    @RequestMapping(value = "/getPublishedSurvey", method = RequestMethod.DELETE)
+    public ResponseObject getPublishedSurveys() {
+
+        return this.adminService.getPublishedSurveys();
+    }
 }

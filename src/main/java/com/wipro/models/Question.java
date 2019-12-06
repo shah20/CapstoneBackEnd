@@ -13,6 +13,7 @@ public class Question {
     String responseType;
     String validation;
     String options;
+    Boolean isMandatory;
 
     // @ManyToOne
     // @JoinColumn(name="survey_id")
@@ -57,7 +58,7 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question [Id=" + id + ", options=" + options + ", question=" + question
+        return "Question [id=" + id + ", isMandatory=" + isMandatory + ", options=" + options + ", question=" + question
                 + ", responseType=" + responseType + ", validation=" + validation + "]";
     }
 
@@ -67,5 +68,21 @@ public class Question {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getIsMandatory() {
+        return isMandatory;
+    }
+
+    public void setIsMandatory(Boolean isMandatory) {
+        this.isMandatory = isMandatory;
+    }
+
+    public Question(String question, String responseType, String validation, String options, Boolean isMandatory) {
+        this.question = question;
+        this.responseType = responseType;
+        this.validation = validation;
+        this.options = options;
+        this.isMandatory = isMandatory;
     }
 }

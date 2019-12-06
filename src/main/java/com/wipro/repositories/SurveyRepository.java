@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SurveyRepository extends JpaRepository<Survey, Long>{ 
 
-    @Query(value = "select * from survey where status='DRAFT'", nativeQuery = true)
-    public List<Survey> findAllDraftSurveys();
+    @Query(value = "select * from survey where status='PUBLISHED'", nativeQuery = true)
+    public List<Survey> findAllPublishedSurveys();
 
     @Query(value = "update Survey s set s.status='PUBLISHED' where s.id=?1")
     public Survey updateStatus(Long id);

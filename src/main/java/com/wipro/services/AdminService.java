@@ -32,7 +32,7 @@ public class AdminService {
     }
 
     public ResponseObject getAllSurveys() {
-        LOGGER.info("Fetching all draft surveys");
+        LOGGER.info("Fetching all surveys");
         List<Survey> allSurveys = this.surveyRepository.findAll();
         LOGGER.info("All Surveys {}", allSurveys);
         return new ResponseObject(true, allSurveys);
@@ -78,5 +78,13 @@ public class AdminService {
         ResponseObject response = new ResponseObject(true, "Survey Deleted Successfully");;
         this.surveyRepository.deleteById(surveyId);
         return response;
+    }
+
+    public ResponseObject getPublishedSurveys() {
+
+        LOGGER.info("Fetching published surveys");
+        List<Survey> publishedSurveys = this.surveyRepository.findAllPublishedSurveys();
+        LOGGER.info("All published Surveys {}", publishedSurveys);
+        return new ResponseObject(true, publishedSurveys);
     }
 }
