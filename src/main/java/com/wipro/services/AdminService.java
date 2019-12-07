@@ -1,5 +1,6 @@
 package com.wipro.services;
 
+import java.util.Date;
 import java.util.List;
 
 import com.wipro.models.ResponseObject;
@@ -32,6 +33,8 @@ public class AdminService {
     }
 
     public ResponseObject getAllSurveys() {
+
+        this.updateSurveyStatus();
         LOGGER.info("Fetching all surveys");
         List<Survey> allSurveys = this.surveyRepository.findAll();
         LOGGER.info("All Surveys {}", allSurveys);
@@ -86,5 +89,14 @@ public class AdminService {
         List<Survey> publishedSurveys = this.surveyRepository.findAllPublishedSurveys();
         LOGGER.info("All published Surveys {}", publishedSurveys);
         return new ResponseObject(true, publishedSurveys);
+    }
+
+    public void updateSurveyStatus() {
+
+        LOGGER.info("Checking and updating survey status if any survey expired");
+        Long currentTime = new Date().getTime();
+        int updatedSurveys = this.surveyRepository.updateStatus(currentTime);
+        LOGGER.info("Updated survey {}", updatedSurveys);
+
     }
 }

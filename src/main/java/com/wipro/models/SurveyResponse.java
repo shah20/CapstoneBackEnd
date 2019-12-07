@@ -14,14 +14,14 @@ public class SurveyResponse {
     Long createdOn;
     String emailId;
     String name;
-    Long survyeId;
+    Long surveyId;
     String surveyName;
     Long takenOn;
     Long validTill;
     
     @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(name="response_question_answer_mapping",joinColumns=@JoinColumn(name="response_id"),inverseJoinColumns=@JoinColumn(name="question_id"))
-    Collection<Question> questions = new ArrayList<>();
+    Collection<QuestionAnswer> questions = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -55,12 +55,12 @@ public class SurveyResponse {
         this.name = name;
     }
 
-    public Long getSurvyeId() {
-        return survyeId;
+    public Long getsurveyId() {
+        return surveyId;
     }
 
-    public void setSurvyeId(Long survyeId) {
-        this.survyeId = survyeId;
+    public void setsurveyId(Long surveyId) {
+        this.surveyId = surveyId;
     }
 
     public String getSurveyName() {
@@ -87,18 +87,18 @@ public class SurveyResponse {
         this.validTill = validTill;
     }
 
-    public Collection<Question> getQuestions() {
+    public Collection<QuestionAnswer> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Collection<Question> questions) {
+    public void setQuestions(Collection<QuestionAnswer> questions) {
         this.questions = questions;
     }
 
     @Override
     public String toString() {
         return "SurveyResponse [createdOn=" + createdOn + ", emailId=" + emailId + ", id=" + id + ", name=" + name
-                + ", questions=" + questions + ", surveyName=" + surveyName + ", survyeId=" + survyeId + ", takenOn="
+                + ", questions=" + questions + ", surveyName=" + surveyName + ", surveyId=" + surveyId + ", takenOn="
                 + takenOn + ", validTill=" + validTill + "]";
     }
 
@@ -106,13 +106,13 @@ public class SurveyResponse {
         super();
     }
 
-    public SurveyResponse(Long createdOn, String emailId, String name, Long survyeId, String surveyName, Long takenOn,
-            Long validTill, Collection<Question> questions) {
+    public SurveyResponse(Long createdOn, String emailId, String name, Long surveyId, String surveyName, Long takenOn,
+            Long validTill, Collection<QuestionAnswer> questions) {
         super();
         this.createdOn = createdOn;
         this.emailId = emailId;
         this.name = name;
-        this.survyeId = survyeId;
+        this.surveyId = surveyId;
         this.surveyName = surveyName;
         this.takenOn = takenOn;
         this.validTill = validTill;
