@@ -21,7 +21,7 @@ public class UserService {
     public ResponseObject saveResponse(SurveyResponse surveyResponse) {
         
         LOGGER.info("Saving Response {}", surveyResponse);
-        ResponseObject ro = new ResponseObject();
+        ResponseObject ro = new ResponseObject(true, "response saved successfully");
         this.surveyResponseRepository.save(surveyResponse);
         LOGGER.info("Response saved");
         return ro;

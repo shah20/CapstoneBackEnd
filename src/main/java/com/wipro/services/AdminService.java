@@ -2,6 +2,7 @@ package com.wipro.services;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.wipro.models.ResponseObject;
@@ -154,7 +155,7 @@ public class AdminService {
     public ResponseObject getSurveyResponsesForChart() {
 
         List<Survey> surveysForAnalysis = this.surveyRepository.findSurveysForAnalysis();
-        HashMap<String, Object> surveys = new HashMap<String, Object>();
+        LinkedHashMap<String, Object> surveys = new LinkedHashMap<String, Object>();
         for (Survey survey: surveysForAnalysis) {
             surveys.put(survey.getSurveyName(), this.surveyResponseRepository.findBySurveyId(survey.getId()).size());
         }

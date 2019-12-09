@@ -20,6 +20,6 @@ public interface SurveyRepository extends JpaRepository<Survey, Long>{
     @Query(value = "UPDATE survey SET status='EXPIRED' WHERE valid_till<:currentDate and status!='EXPIRED'", nativeQuery = true)
     public int updateStatus(@Param("currentDate") Long currentTime);
 
-    @Query(value = "select s from Survey s where s.status!='DRAFT'")
+    @Query(value = "select s from Survey s where s.status!='DRAFT' order by s.id")
     public List<Survey> findSurveysForAnalysis();
 }
