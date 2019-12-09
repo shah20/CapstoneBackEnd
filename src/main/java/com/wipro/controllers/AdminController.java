@@ -81,4 +81,10 @@ public class AdminController {
 
         return this.adminService.getSurveyResponses(data.get("surveyId"), data.get("from"), data.get("to"));
     }
+
+    @RequestMapping(value = "/getSurveyResponsesForChart", method = RequestMethod.GET)
+    public ResponseObject getSurveyResponsesForChart() {
+
+        return this.adminService.getSurveyResponsesForChart();
+    }
 }

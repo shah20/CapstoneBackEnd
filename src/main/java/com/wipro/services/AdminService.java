@@ -1,6 +1,7 @@
 package com.wipro.services;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.wipro.models.ResponseObject;
@@ -109,6 +110,7 @@ public class AdminService {
 
     public ResponseObject createUser(String userName, String password) {
 
+        LOGGER.info("Creating new user {}", userName);
         ResponseObject response;
         if (this.login(userName, password).getResult()) {
             response = new ResponseObject(false, "Username already exists");
@@ -116,19 +118,23 @@ public class AdminService {
             this.userRepository.save(new User(userName, password));
             response = new ResponseObject(true, "User created successfully");
         }
+        LOGGER.info("Created new user {}", userName);
         return response;
     }
 
     public ResponseObject getSurveysForAnalysis() {
 
+        LOGGER.info("Getting surveys for analysis");
         ResponseObject response;
         List<Survey> surveysForAnalysis = this.surveyRepository.findSurveysForAnalysis();
         response = new ResponseObject(true, surveysForAnalysis);
+        LOGGER.info("Surveys for analysis {}", surveysForAnalysis);
         return response;
     }
 
     public ResponseObject getSurveyResponses(Long surveyId, Long from, Long to) {
 
+        LOGGER.info("getting survey responses {} {} {}", surveyId, from, to);
         ResponseObject response;
         List<SurveyResponse> surveysForAnalysis;
         if (from != null && to != null) {
@@ -141,6 +147,17 @@ public class AdminService {
             surveysForAnalysis = this.surveyResponseRepository.findByDateTo(surveyId, to);
         }
         response = new ResponseObject(true, surveysForAnalysis);
+        LOGGER.info("Survey responses {}", surveysForAnalysis);
         return response;
+    }
+
+    public ResponseObject getSurveyResponsesForChart() {
+
+        List<Survey> surveysForAnalysis = this.surveyRepository.findSurveysForAnalysis();
+        HashMap<String, Object> surveys = new HashMap<String, Object>();
+        for (Survey survey: surveysForAnalysis) {
+            surveys.put(survey.getSurveyName(), this.surveyResponseRepository.findBySurveyId(survey.getId()).size());
+        }
+        return new ResponseObject(true, surveys);
     }
 }
