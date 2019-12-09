@@ -2,6 +2,10 @@ package com.wipro.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
+import javax.mail.MessagingException;
 
 import com.wipro.models.ResponseObject;
 import com.wipro.models.SurveyResponse;
@@ -16,6 +20,9 @@ public class UserService {
 	@Autowired
     SurveyResponseRepository surveyResponseRepository;
 
+	@Autowired
+    private JavaMailSender javaMailSender;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
 
     public ResponseObject saveResponse(SurveyResponse surveyResponse) {
@@ -23,6 +30,7 @@ public class UserService {
         LOGGER.info("Saving Response {}", surveyResponse);
         ResponseObject ro = new ResponseObject(true, "response saved successfully");
         this.surveyResponseRepository.save(surveyResponse);
+        this.sendEmail(surveyResponse);
         LOGGER.info("Response saved");
         return ro;
     }
@@ -39,6 +47,25 @@ public class UserService {
         }
         LOGGER.info("Result {}", responseObject);
         return responseObject;
+    }
+
+    public boolean sendEmail(SurveyResponse receipent) {
+
+        LOGGER.info("Sending  email notification to {}", receipent.getEmailId());
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(receipent.getEmailId());
+
+        msg.setSubject("Survey submission notification");
+        msg.setText("Hello  " + receipent.getName() + "\n");
+
+        try {
+            javaMailSender.send(msg);
+            LOGGER.info("Email notification sent to {}", receipent.getEmailId());
+        } catch (Exception e) {
+            LOGGER.info("Some error occured while sending email to {}", receipent.getEmailId());
+            e.printStackTrace();
+        }
+        return true;
     }
 
 }
