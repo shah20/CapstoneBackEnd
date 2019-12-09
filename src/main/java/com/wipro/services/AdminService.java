@@ -157,7 +157,13 @@ public class AdminService {
         List<Survey> surveysForAnalysis = this.surveyRepository.findSurveysForAnalysis();
         LinkedHashMap<String, Object> surveys = new LinkedHashMap<String, Object>();
         for (Survey survey: surveysForAnalysis) {
-            surveys.put(survey.getSurveyName(), this.surveyResponseRepository.findBySurveyId(survey.getId()).size());
+            LinkedHashMap<String, Object> data = new LinkedHashMap<String, Object>();
+            data.put("name", survey.getSurveyName());
+            data.put("noOfQuestions", survey.getQuestions().size());
+            data.put("noOfResponses", this.surveyResponseRepository.findBySurveyId(survey.getId()).size());
+            data.put("createdOn", survey.getCreatedOn());
+            data.put("validTill", survey.getValidTill());
+            surveys.put(survey.getSurveyName(), data);
         }
         return new ResponseObject(true, surveys);
     }
