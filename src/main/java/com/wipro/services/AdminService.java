@@ -5,9 +5,13 @@ import java.util.List;
 
 import com.wipro.models.ResponseObject;
 import com.wipro.models.Survey;
+import com.wipro.models.SurveyResponse;
 import com.wipro.models.User;
 import com.wipro.repositories.SurveyRepository;
+import com.wipro.repositories.SurveyResponseRepository;
 import com.wipro.repositories.UserRepository;
+
+import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +28,9 @@ public class AdminService {
 
 	@Autowired
     SurveyRepository surveyRepository;
+    
+	@Autowired
+    SurveyResponseRepository surveyResponseRepository;
 
     public ResponseObject saveSurvey( Survey survey) {
         LOGGER.info("Saving Survey {}", survey);
@@ -98,5 +105,42 @@ public class AdminService {
         int updatedSurveys = this.surveyRepository.updateStatus(currentTime);
         LOGGER.info("Updated survey {}", updatedSurveys);
 
+    }
+
+    public ResponseObject createUser(String userName, String password) {
+
+        ResponseObject response;
+        if (this.login(userName, password).getResult()) {
+            response = new ResponseObject(false, "Username already exists");
+        } else {
+            this.userRepository.save(new User(userName, password));
+            response = new ResponseObject(true, "User created successfully");
+        }
+        return response;
+    }
+
+    public ResponseObject getSurveysForAnalysis() {
+
+        ResponseObject response;
+        List<Survey> surveysForAnalysis = this.surveyRepository.findSurveysForAnalysis();
+        response = new ResponseObject(true, surveysForAnalysis);
+        return response;
+    }
+
+    public ResponseObject getSurveyResponses(Long surveyId, Long from, Long to) {
+
+        ResponseObject response;
+        List<SurveyResponse> surveysForAnalysis;
+        if (from != null && to != null) {
+            surveysForAnalysis = this.surveyResponseRepository.findByDateRange(surveyId, from, to);
+        } else if (from == null && to == null) {
+            surveysForAnalysis = this.surveyResponseRepository.findBySurveyId(surveyId);
+        } else if (to == null) {
+            surveysForAnalysis = this.surveyResponseRepository.findByDateFrom(surveyId, from);
+        } else {
+            surveysForAnalysis = this.surveyResponseRepository.findByDateTo(surveyId, to);
+        }
+        response = new ResponseObject(true, surveysForAnalysis);
+        return response;
     }
 }

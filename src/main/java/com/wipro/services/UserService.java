@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 @Service
 public class UserService { 
-
     
 	@Autowired
     SurveyResponseRepository surveyResponseRepository;
@@ -32,7 +31,7 @@ public class UserService {
         
         LOGGER.info("Checking user {}", surveyResponse);
         ResponseObject responseObject;
-        SurveyResponse response =  this.surveyResponseRepository.findByEmailId(surveyResponse.getEmailId());
+        SurveyResponse response =  this.surveyResponseRepository.findByEmailIdAndSurveyId(surveyResponse.getEmailId(), surveyResponse.getsurveyId());
         if (response == null) {
             responseObject = new ResponseObject(true, "New user");
         } else {

@@ -63,4 +63,22 @@ public class AdminController {
 
         return this.adminService.getPublishedSurveys();
     }
+
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+    public ResponseObject createUser(@RequestBody Map<String, String> user) {
+
+        return this.adminService.createUser(user.get("userName"), user.get("password"));
+    }
+
+    @RequestMapping(value = "/getSurveysForAnalysis", method = RequestMethod.GET)
+    public ResponseObject getSurveysForAnalysis() {
+
+        return this.adminService.getSurveysForAnalysis();
+    }
+
+    @RequestMapping(value = "/getSurveyResponses", method = RequestMethod.POST)
+    public ResponseObject getSurveyResponses(@RequestBody Map<String, Long> data) {
+
+        return this.adminService.getSurveyResponses(data.get("surveyId"), data.get("from"), data.get("to"));
+    }
 }

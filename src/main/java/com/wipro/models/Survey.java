@@ -14,6 +14,7 @@ public class Survey {
 
     String surveyName;
     Long createdOn;
+    String description;
     String status;
     Long validTill;
     @OneToMany(cascade=CascadeType.ALL)
