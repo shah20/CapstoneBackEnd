@@ -56,7 +56,10 @@ public class UserService {
         msg.setTo(receipent.getEmailId());
 
         msg.setSubject("Survey submission notification");
-        msg.setText("Hello  " + receipent.getName() + "\n");
+        String message = "Hello  " + receipent.getName() + 
+                        "\nThis is to notify that you have successfully submitted " + 
+                        receipent.getSurveyName() + " survey\n Thanks & Regards,\nCampaign Management System";
+        msg.setText(message);
 
         try {
             javaMailSender.send(msg);
